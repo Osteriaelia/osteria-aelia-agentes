@@ -1,0 +1,6 @@
+# Entorno donde trabajan los agentes (contenedor en la nube de Anthropic).
+# networking "limited" sin allowed_hosts bloquea internet, también la búsqueda web de Estrategia.
+# Para que Estrategia pueda investigar competencia y tendencias hay que cambiarlo a
+# {type: unrestricted}. En este entorno no se guardan claves ni datos sensibles.
+name: aelia-equipo
+config: {type: cloud, networking: {type: limited, allow_package_managers: true}}
