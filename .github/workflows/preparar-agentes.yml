@@ -25,9 +25,13 @@ jobs:
             echo "::error::El secreto ANTHROPIC_API_KEY está vacío o no existe."
             exit 1
           fi
+          # Los primeros 13 caracteres solo dicen el tipo de clave (no son secretos).
+          echo "Tipo de clave: ${CLAVE:0:13}... (${#CLAVE} caracteres)"
           case "$CLAVE" in
-            sk-ant-api*) echo "La clave tiene el formato correcto (${#CLAVE} caracteres)." ;;
-            *) echo "::error::La clave no empieza por sk-ant-api (empieza por '${CLAVE:0:4}', ${#CLAVE} caracteres). Copia la API key de console.anthropic.com > API Keys."
+            sk-ant-admin*) echo "::error::Es una clave de administración (Admin key). Hace falta una API key normal: console.anthropic.com > API Keys > Create Key."
+               exit 1 ;;
+            sk-ant-*) ;;
+            *) echo "::error::No parece una clave de Claude: debe empezar por sk-ant-. Copia la API key de console.anthropic.com > API Keys."
                exit 1 ;;
           esac
           echo "ANTHROPIC_API_KEY=$CLAVE" >> "$GITHUB_ENV"
