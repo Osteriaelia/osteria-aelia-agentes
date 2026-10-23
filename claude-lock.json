@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "origin": {
+    "base_url": "https://api.anthropic.com",
+    "organization_id": "3ced5772-e421-4d7a-8b36-77acefeda2e1",
+    "workspace_id": "wrkspc_01TKFkzPPeTkUK1MabmvyRF8"
+  },
+  "resources": {
+    "./agents/copywriter/agent.md": {
+      "kind": "agent",
+      "id": "agent_01PN4vdAew28LScsoaGMAPuh",
+      "version": "1",
+      "hash": "428db7f1b201eeb2795afa20ae58e074",
+      "remote_hash": "883cf676d5ed182c36c7ca75dbffd565"
+    },
+    "./agents/direccion/agent.md": {
+      "kind": "agent",
+      "id": "agent_01Qr1jmDbcnWVLfBv3LJx4ry",
+      "version": "1",
+      "hash": "e80fc4dc3f53cd70cdda7b03844ae8d2",
+      "remote_hash": "0af6a1ed1771fbbe15239e3d688b1cf2"
+    },
+    "./agents/direccion/environment.yaml": {
+      "kind": "environment",
+      "id": "env_01UpYTQutn9nABSAQiaJ44LC",
+      "hash": "6e293e6505cffbd7f86113ea24c58a3a",
+      "remote_hash": "e500c228e6629a21e693ef1772ad1430"
+    },
+    "./agents/direccion/memory_store-aelia.yaml": {
+      "kind": "memory_store",
+      "id": "memstore_01FxLrvuwvkTKddzgMse6TP3",
+      "hash": "e6af1c4fb1f9fba06148f62d1c5a10c0",
+      "remote_hash": "e6af1c4fb1f9fba06148f62d1c5a10c0"
+    },
+    "./agents/estrategia/agent.md": {
+      "kind": "agent",
+      "id": "agent_017vonvogq2peNJdJMwYizUZ",
+      "version": "1",
+      "hash": "b7e3c5ac6ecd219a34f363099c05cc38",
+      "remote_hash": "16ecd7172c797c2904453dfbbb8aa82e"
+    }
+  }
+}
