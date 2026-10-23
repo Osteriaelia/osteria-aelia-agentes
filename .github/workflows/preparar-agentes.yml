@@ -11,10 +11,26 @@ permissions:
 jobs:
   preparar:
     runs-on: ubuntu-latest
-    env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Comprobar la clave de Claude
+        env:
+          CLAVE: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Quita espacios y saltos de línea que se cuelan al copiar y pegar.
+          CLAVE="$(printf '%s' "$CLAVE" | tr -d '[:space:]')"
+          echo "::add-mask::$CLAVE"
+          if [ -z "$CLAVE" ]; then
+            echo "::error::El secreto ANTHROPIC_API_KEY está vacío o no existe."
+            exit 1
+          fi
+          case "$CLAVE" in
+            sk-ant-api*) echo "La clave tiene el formato correcto (${#CLAVE} caracteres)." ;;
+            *) echo "::error::La clave no empieza por sk-ant-api (empieza por '${CLAVE:0:4}', ${#CLAVE} caracteres). Copia la API key de console.anthropic.com > API Keys."
+               exit 1 ;;
+          esac
+          echo "ANTHROPIC_API_KEY=$CLAVE" >> "$GITHUB_ENV"
 
       - uses: actions/setup-go@v5
         with:
