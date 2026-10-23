@@ -1,0 +1,47 @@
+# Sube los agentes a la cuenta de Claude y carga la memoria de partida.
+# Se lanza a mano desde la pestaña Actions: pulsar "Run workflow" es la aprobación de JOSU.
+name: Preparar agentes
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      - name: Instalar ant
+        run: go install github.com/anthropics/anthropic-cli/cmd/ant@latest
+
+      - name: Plan
+        run: ant apply --dry-run -v agents/direccion/agent.md agents/direccion/environment.yaml agents/direccion/memory_store-aelia.yaml
+
+      - name: Subir agentes, entorno y memoria
+        run: ant apply --yes agents/direccion/agent.md agents/direccion/environment.yaml agents/direccion/memory_store-aelia.yaml
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cargar la memoria de partida
+        run: |
+          pip install -r bot/requirements.txt
+          python bot/cargar_memoria.py
+
+      - name: Guardar claude-lock.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add claude-lock.json
+          git diff --cached --quiet || git commit -m "Actualiza claude-lock.json"
+          git push

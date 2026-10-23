@@ -25,24 +25,18 @@ bot/cargar_memoria.py             carga memoria_inicial/ una sola vez
 
 ## Puesta en marcha
 
-Se hace una vez, paso a paso y con ayuda de Claude.
+Sin terminal: todo se hace desde la web de GitHub y de Railway.
 
-1. **Cuenta de la API de Claude:** crear cuenta en console.anthropic.com, añadir saldo y crear una clave (API key).
-2. **Bot de Telegram:** hablar con @BotFather, enviar `/newbot` y guardar el token que da.
-3. **Instalar las herramientas:** Python 3.10 o superior y la línea de comandos `ant` de Anthropic. Después:
-   ```sh
-   python3 -m venv .venv && source .venv/bin/activate
-   pip install -r bot/requirements.txt
-   cp .env.example .env    # y rellenar los valores
-   ```
-4. **Subir los agentes** (primero se revisa el plan, luego se aplica):
-   ```sh
-   ant apply --dry-run -v agents/direccion/agent.md agents/direccion/environment.yaml agents/direccion/memory_store-aelia.yaml
-   ant apply agents/direccion/agent.md agents/direccion/environment.yaml agents/direccion/memory_store-aelia.yaml
-   ```
-   `ant apply` sube también Estrategia y Copywriter porque Dirección los nombra, y escribe `claude-lock.json`, que hay que guardar en el repositorio.
-5. **Cargar la memoria de partida:** `python bot/cargar_memoria.py`
-6. **Arrancar el bot:** `python bot/bot.py`, escribirle `/start` desde Telegram, copiar el número de chat en `TELEGRAM_CHAT_ID_JOSU` y reiniciar el bot.
+1. **Clave de Claude en GitHub:** en el repositorio, Settings > Secrets and variables > Actions > New repository secret. Nombre `ANTHROPIC_API_KEY`, valor la clave de console.anthropic.com.
+2. **Subir los agentes:** pestaña Actions > "Preparar agentes" > Run workflow. Crea los tres agentes, el entorno y la memoria común, carga `memoria_inicial/` y guarda `claude-lock.json` en el repositorio.
+3. **Encender el bot en Railway:** crear cuenta en railway.com, New Project > Deploy from GitHub repo > `osteria-aelia-agentes`. En Variables, añadir:
+   - `ANTHROPIC_API_KEY`: la clave de Claude
+   - `TELEGRAM_TOKEN`: el token de @BotFather
+   - `TELEGRAM_CHAT_ID_JOSU`: de momento `0`
+   - `PRESUPUESTO_SESION_USD`: tope de gasto por conversación en dólares, por ejemplo `5`
+4. **Tu número de chat:** escribe `/start` al bot en Telegram, copia el número que te responde en `TELEGRAM_CHAT_ID_JOSU` en Railway y el bot se reinicia solo.
+
+Para probar en un ordenador en lugar de Railway: `pip install -r bot/requirements.txt`, copiar `.env.example` como `.env`, rellenarlo y ejecutar `python bot/bot.py`. Para subir los agentes a mano hace falta la línea de comandos `ant` (1.40.0 o posterior) y ejecutar los mismos comandos que el workflow.
 
 ## Uso diario
 
