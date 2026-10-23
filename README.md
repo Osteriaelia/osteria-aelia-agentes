@@ -53,6 +53,5 @@ Se hace una vez, paso a paso y con ayuda de Claude.
 
 ## Pendiente
 
-- **Acceso a internet de Estrategia:** el entorno está en modo `limited`, que bloquea la búsqueda web. Para que Estrategia investigue competencia y tendencias hay que cambiar `networking` a `{type: unrestricted}` en `environment.yaml`. En ese espacio de trabajo no se guardan claves.
 - **Multiagente:** la configuración de Dirección usa el tipo `multiagent_20261001` y nombra a sus subagentes por ruta, lo que necesita `ant` 1.40.0 o posterior.
 - Datos de negocio que faltan en `memoria_inicial/marca/estado.md`.
